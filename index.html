@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Resource Finder</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #388E3C;
+            --accent-color: #FF9800;
+            --background-color: #f4f8f4;
+            --text-color: #333;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-bottom: 40px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+
+        .option-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .option-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            width: 320px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .option-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+
+        .card-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .market-image {
+            background-image: url('/api/placeholder/400/320');
+            background-color: #FFECB3;
+        }
+
+        .storage-image {
+            background-image: url('/api/placeholder/400/320');
+            background-color: #C8E6C9;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin: 20px 0;
+            color: var(--primary-color);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .welcome-section {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            background-color: #e8f5e9;
+            border-radius: 10px 10px 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .option-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .option-card {
+                width: 90%;
+                max-width: 320px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Farmer Resource Finder</h1>
+            <div class="subtitle">Find the perfect market to sell or storage facility for your harvest</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="welcome-section">
+            <h2>Welcome, Farmer!</h2>
+            <p>We're here to help you find the best resources for your agricultural needs. Whether you're looking to sell your produce at local markets or find suitable storage facilities for your harvest, we've got you covered.</p>
+        </section>
+
+        <div class="option-cards">
+            <a href="{{ url_for('markets') }}" class="option-card">
+                <div class="card-icon">
+                    <i class="fas fa-store"></i>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Find Markets</h3>
+                    <p>Discover local markets where you can sell your produce at the best prices. Get information about market timings, facilities, and more.</p>
+                    <div class="btn">Find Markets <i class="fas fa-arrow-right"></i></div>
+                </div>
+            </a>
+
+            <a href="{{ url_for('storage') }}" class="option-card">
+                <div class="card-icon">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Find Storage</h3>
+                    <p>Locate suitable storage facilities for your harvest. Compare options based on capacity, type, and location to make the best choice.</p>
+                    <div class="btn">Find Storage <i class="fas fa-arrow-right"></i></div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Designed to help farmers access markets and storage facilities for their produce</p>
+            <p>© 2025 Farmer Resource Finder</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Storage Finder</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #388E3C;
+            --background-color: #f4f8f4;
+            --text-color: #333;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .search-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            background-color: white;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .button-icon {
+            margin-right: 8px;
+        }
+
+        .results-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin: 30px 0 20px;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            color: var(--primary-color);
+            margin-right: 10px;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+        }
+
+        .capacity-badge {
+            display: inline-block;
+            background-color: #f0f7f0;
+            color: var(--primary-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .card-type {
+            display: inline-block;
+            background-color: #e7f3e7;
+            color: var(--secondary-color);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Farmer Storage Finder</h1>
+            <div class="subtitle">Find the perfect storage facility for your harvest</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="search-section">
+            <form method="POST">
+                <div class="form-group">
+                    <label for="district"><i class="fas fa-map-marker-alt"></i> Select Your District</label>
+                    <select name="district" id="district">
+                        <option value="" disabled selected>-- Select a district --</option>
+                        {% for district in districts %}
+                            <option value="{{ district }}" {% if selected_district == district %}selected{% endif %}>{{ district }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit"><i class="fas fa-search button-icon"></i>Find Storage</button>
+                </div>
+            </form>
+        </section>
+
+        {% if storage_options %}
+            <h2 class="results-title">Available Storage Facilities in {{ selected_district }}</h2>
+            <div class="cards-container">
+                {% for storage in storage_options %}
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ storage['Storage name'] }}</h3>
+                        <span class="card-type">{{ storage['Type'] }}</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="info-item">
+                            <span class="info-icon"><i class="fas fa-map-pin"></i></span>
+                            <span>{{ storage['Address'] }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i class="fas fa-warehouse"></i></span>
+                            <span>Storage Type: {{ storage['Type'] }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon"><i class="fas fa-weight-hanging"></i></span>
+                            <span>
+                                Capacity:
+                                <span class="capacity-badge">{{ storage['Capacity in MT'] }} MT</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% elif request.method == 'POST' %}
+            <div class="no-results">
+                <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #ddd; display: block; margin-bottom: 20px;"></i>
+                <h3>No storage facilities found in this district</h3>
+                <p>Please try selecting a different district</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Designed to help farmers find suitable storage facilities for their produce</p>
+        </div>
+    </footer>
+</body>
+</html>

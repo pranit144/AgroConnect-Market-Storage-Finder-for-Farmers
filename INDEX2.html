@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Markets | Farmer Resource Finder</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #388E3C;
+            --accent-color: #FF9800;
+            --background-color: #f4f8f4;
+            --text-color: #333;
+            --card-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .search-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: white;
+        }
+
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .button-icon {
+            margin-right: 8px;
+        }
+
+        .results-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin: 30px 0 20px;
+        }
+
+        .market-count {
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .market-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .market-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .market-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 15px;
+        }
+
+        .card-title {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+            display: flex;
+        }
+
+        .info-icon {
+            color: var(--accent-color);
+            margin-right: 10px;
+            min-width: 25px;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px 0;
+            color: #666;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background-color: #757575;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+
+        .back-btn:hover {
+            background-color: #616161;
+        }
+
+        .back-icon {
+            margin-right: 8px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            background-color: #e8f5e9;
+            border-radius: 10px 10px 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .market-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            // Auto-submit the form when district changes
+            $('#district').change(function() {
+                var district = $(this).val();
+                if (district) {
+                    $('#market-form').submit();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Find Markets</h1>
+            <div class="subtitle">Discover the best markets to sell your produce</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="nav-buttons">
+            <a href="{{ url_for('landing') }}" class="back-btn">
+                <i class="fas fa-arrow-left back-icon"></i> Back to Home
+            </a>
+        </div>
+
+        <section class="search-section">
+            <form id="market-form" method="POST">
+                <div class="form-group">
+                    <label for="district"><i class="fas fa-map-marker-alt"></i> Select Your District</label>
+                    <select name="district" id="district">
+                        <option value="">Select District</option>
+                        {% for district in districts %}
+                            <option value="{{ district }}" {% if selected_district == district %}selected{% endif %}>{{ district }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+        </section>
+
+        {% if selected_district %}
+            <h2 class="results-title">Available Markets in {{ selected_district }}</h2>
+
+            {% if market_details %}
+                <div class="market-count">
+                    <i class="fas fa-store"></i> {{ market_details|length }} unique markets found
+                </div>
+
+                <div class="market-cards">
+                    {% for market in market_details %}
+                    <div class="market-card">
+                        <div class="card-header">
+                            <h3 class="card-title">{{ market['Market Name'] }}</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="info-item">
+                                <span class="info-icon"><i class="fas fa-map-pin"></i></span>
+                                <span>District: {{ market['District Name'] }}</span>
+                            </div>
+
+                            {% if market.get('Market Type') %}
+                            <div class="info-item">
+                                <span class="info-icon"><i class="fas fa-tag"></i></span>
+                                <span>Market Type: {{ market['Market Type'] }}</span>
+                            </div>
+                            {% endif %}
+
+                            {% if market.get('Commodity') %}
+                            <div class="info-item">
+                                <span class="info-icon"><i class="fas fa-shopping-basket"></i></span>
+                                <span>Main Commodity: {{ market['Commodity'] }}</span>
+                            </div>
+                            {% endif %}
+
+                            {% if market.get('Market Days') %}
+                            <div class="info-item">
+                                <span class="info-icon"><i class="fas fa-calendar-day"></i></span>
+                                <span>Market Days: {{ market['Market Days'] }}</span>
+                            </div>
+                            {% endif %}
+
+                            {% if market.get('Volume') %}
+                            <div class="info-item">
+                                <span class="info-icon"><i class="fas fa-chart-line"></i></span>
+                                <span>Trading Volume: {{ market['Volume'] }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="no-results">
+                    <i class="fas fa-exclamation-circle" style="font-size: 3rem; color: #ddd; display: block; margin-bottom: 20px;"></i>
+                    <h3>No markets found in this district</h3>
+                    <p>Please try selecting a different district</p>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>Find the best markets to sell your agricultural produce</p>
+            <p>© 2025 Farmer Resource Finder</p>
+        </div>
+    </footer>
+</body>
+</html>
