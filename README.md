@@ -1,106 +1,131 @@
+
 # 🌾 Farmer Resource Finder
 
-**Farmer Resource Finder** is a web-based platform that helps farmers discover local markets to sell their produce and find suitable storage facilities to preserve their harvest.
+**Farmer Resource Finder** is a web-based platform that enables farmers to discover nearby markets to sell their produce and find appropriate storage facilities to preserve their harvest. Built using **Flask** and **CSV-based datasets**, the application empowers farmers with easy access to critical post-harvest resources.
 
 ---
 
 ## 🚀 Features
 
-- 🧭 **Landing Page** with clear navigation options to search for markets or storage.
+- 🧭 **Landing Page** with intuitive navigation for market and storage searches.
 - 🏪 **Market Finder**:
-  - Select a district to view available markets.
-  - Displays market name, type, primary commodities, trading volume, and days.
+  - Choose a district to view local markets.
+  - Displays market name, type, commodities traded, market days, and volume.
 - 🏬 **Storage Finder**:
-  - Select a district to find storage facilities.
-  - Displays storage name, type, capacity in metric tons, and address.
-- 📊 **CSV-based Data Integration** for dynamic district-based filtering.
-- 🎨 Responsive UI using HTML, CSS, Font Awesome, and JQuery.
+  - Select a district to list storage options.
+  - Displays storage name, type, capacity (MT), and address.
+- 📊 **CSV-Based Data Integration**:
+  - Dynamic district-based filtering using Pandas.
+- 🎨 **Responsive UI**:
+  - Built using HTML, CSS, Font Awesome, and JQuery.
 
 ---
 
 ## 🗂️ Project Structure
 
+```
 farmer-resource-finder/
 │
-├── app.py # Main Flask application
-├── df10.csv # Market dataset
-├── main.csv # Storage dataset
-├── templates/
-│ ├── index.html # Landing page
-│ ├── INDEX2.html # Market search and results
-│ └── storage.html # Storage search and results
-├── static/ # Static files (optional for custom CSS/JS)
-└── README.md # Project documentation
-
-yaml
-Copy
-Edit
+├── app.py                 # Main Flask application
+├── df10.csv               # Market dataset
+├── main.csv               # Storage dataset
+│
+├── templates/             # HTML templates
+│   ├── index.html         # Landing page
+│   ├── INDEX2.html        # Market search and results
+│   └── storage.html       # Storage search and results
+│
+├── static/                # (Optional) Static files for CSS/JS
+└── README.md              # Project documentation
+```
 
 ---
 
 ## ⚙️ Setup Instructions
 
-### 1. 🐍 Install Python dependencies
-
+### 1. 🐍 Install Dependencies
+Make sure Python is installed, then run:
 ```bash
 pip install flask pandas
-2. 📁 File Requirements
-Ensure you have the following files in the correct locations:
+```
 
-df10.csv – Contains market information (columns like District Name, Market Name, Market Type, Commodity, Market Days, Volume)
+### 2. 📁 Ensure the Following Files Exist
 
-main.csv – Contains storage data (columns like District, Storage name, Address, Type, Capacity in MT)
+- **df10.csv** – Market dataset with columns:
+  ```
+  District Name, Market Name, Market Type, Commodity, Market Days, Volume
+  ```
+- **main.csv** – Storage dataset with columns:
+  ```
+  District, Storage name, Address, Type, Capacity in MT
+  ```
+- **templates/** – Folder containing HTML files:
+  - `index.html`
+  - `INDEX2.html`
+  - `storage.html`
 
-templates/ – Contains HTML files (index.html, INDEX2.html, storage.html)
-
-3. ▶️ Run the Application
-bash
-Copy
-Edit
+### 3. ▶️ Run the Application
+```bash
 python app.py
-Access the app at: http://127.0.0.1:5000/
+```
 
-💡 How It Works
-Landing Page (/)
-Provides options to find markets or storage.
+Visit the app at:  
+**http://127.0.0.1:5000/**
 
-Routes to /markets or /storage.
+---
 
-Market Finder (/markets)
-Displays a dropdown of districts.
+## 💡 How It Works
 
-Upon selection, filters and shows unique markets in that district.
+### 🏠 Landing Page (`/`)
+- Offers two options: **Find Markets** or **Find Storage**
+- Routes to `/markets` and `/storage`
 
-Storage Finder (/storage)
-Dropdown of districts.
+### 🏪 Market Finder (`/markets`)
+- Dropdown of districts
+- On selection, filters and displays matching market details
 
-On form submission, lists available storage facilities by type and capacity.
+### 🏬 Storage Finder (`/storage`)
+- Dropdown of districts
+- On form submit, shows available storage with capacity and location
 
-📦 Sample Data Format
-df10.csv
-District Name	Market Name	Market Type	Commodity	Market Days	Volume
-Pune	Market A	Retail	Onion	Mon-Wed	High
+---
 
-main.csv
-District	Storage name	Address	Type	Capacity in MT
-Pune	Storage A	123 Farm Lane, Pune	Cold	500
+## 📦 Sample Data Format
 
-🎯 Future Improvements
-🔍 Add search filters like commodity type or market volume.
+**df10.csv**
+| District Name | Market Name | Market Type | Commodity | Market Days | Volume |
+|---------------|-------------|--------------|------------|--------------|--------|
+| Pune          | Market A    | Retail       | Onion      | Mon-Wed      | High   |
 
-📱 Make fully mobile-friendly using Bootstrap or Tailwind CSS.
+**main.csv**
+| District | Storage name | Address              | Type | Capacity in MT |
+|----------|---------------|----------------------|------|----------------|
+| Pune     | Storage A     | 123 Farm Lane, Pune  | Cold | 500            |
 
-📊 Dashboard for statistics and reports.
+---
 
-🌐 Integration with real-time government APIs.
+## 🎯 Future Improvements
 
-🙌 Contribution
-Feel free to fork this project, open issues, or submit pull requests to improve the functionality or design!
+- 🔍 Filter by commodity or volume
+- 📱 Mobile-first responsive design using Bootstrap or Tailwind
+- 📊 Dashboard with agricultural statistics
+- 🌐 Integration with live government APIs
 
-🧑‍💻 Author
-Farmer Resource Finder Project – 2025
+---
 
+## 🙌 Contribution
+
+Feel free to fork this repo, open issues, or submit pull requests to enhance its features or UI. Your contributions are welcome and appreciated!
+
+---
+
+## 🧑‍💻 Author
+
+**Farmer Resource Finder Project** – 2025  
 Made with ❤️ to support the agricultural community.
 
-📄 License
-This project is open-source and available under the MIT License.
+---
+
+## 📄 License
+
+This project is open-source and available under the [MIT License](LICENSE).
